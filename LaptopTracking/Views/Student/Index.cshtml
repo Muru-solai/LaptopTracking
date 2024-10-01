@@ -2,6 +2,12 @@
 @{
     Layout = "_LayoutDashBoard";
 
+
+
+
+
+
+
     ViewData["IndexInfo"] = "Display all the user logs";
 }
 <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
@@ -9,37 +15,40 @@
     $(document).ready(function () {
 
         $("#btnSubmit").click(function (e) {
-            e.preventDefault();
-            $.ajax({
+
+    @ViewBag.SelectedDate=$("#datePicker").val();
+
+    @* e.preventDefault();
+                $.ajax({
                 type: "POST",
                 url: "/Student/SearchData/",
                 data: {
-                    CDate: $("#datePicker").val()
+                CDate: $("#datePicker").val()
                 },
                 success: function (customers) {
-                    var table = $("#example1");
-                    table.find("tr:not(:first:last)").remove();
-                    $.each(customers, function (i, customer) {
-                        var table = $("#example1");
-                        var row = table[0].insertRow(-1);
-                        $(row).append("<td />");
-                        $(row).find("td").eq(0).html(customer.userId);
-                        $(row).append("<td />");
-                        $(row).find("td").eq(1).html(customer.host);
-                        $(row).append("<td />");
-                        $(row).find("td").eq(2).html(customer.date);
-                        $(row).append("<td />");
-                        $(row).find("td").eq(3).html(customer.fisTlOGIN);
-                        $(row).append("<td />");
-                        $(row).find("td").eq(4).html(customer.lastlogoff);
-                        $(row).append("<td />");
-                        $(row).find("td").eq(5).html(customer.totalActiveTime);
-                    });
+                var table = $("#example1");
+                table.find("tr:not(:first:last)").remove();
+                $.each(customers, function (i, customer) {
+                var table = $("#example1");
+                var row = table[0].insertRow(-1);
+                $(row).append("<td />");
+                $(row).find("td").eq(0).html(customer.userId);
+                $(row).append("<td />");
+                $(row).find("td").eq(1).html(customer.host);
+                $(row).append("<td />");
+                $(row).find("td").eq(2).html(customer.date);
+                $(row).append("<td />");
+                $(row).find("td").eq(3).html(customer.fisTlOGIN);
+                $(row).append("<td />");
+                $(row).find("td").eq(4).html(customer.lastlogoff);
+                $(row).append("<td />");
+                $(row).find("td").eq(5).html(customer.totalActiveTime);
+                });
                 },
                 error: function (result) {
                 }
-            });
-        });
+                });
+                }); *@
     });
 </script>
 <!-- Content Header (Page header) -->
@@ -106,7 +115,13 @@
                         <tbody>
                             @foreach (var item in Model)
 
-                             {
+
+
+
+
+
+
+                            {
                                 <tr>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.UserId)

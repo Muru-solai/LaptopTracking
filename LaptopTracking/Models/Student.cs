@@ -41,5 +41,29 @@ namespace LaptopTracking.Models
         [Display(Name = "App Activity")]
         public string AppActivity { get; set; }
     }
+    public class UserBreachLog
+    {
+        [Display(Name = "ITS Number")]
+        public string ITS_Number { get; set; } = string.Empty;
+
+        [Display(Name = "User Code")]
+        public string UserCode { get; set; } = string.Empty;
+        [Display(Name = "Full Name")]
+        public string Fullname { get; set; } = string.Empty;
+
+        [Display(Name = "IP Address")]
+        public string IP_Address { get; set; } = string.Empty;
+
+        [Display(Name = "Laptop Model")]
+        public string Laptop_Model { get; set; } = string.Empty;
+        [Display(Name = "Host")]
+        public string Host { get; set; } = string.Empty;
+        [Display(Name = "Time")]
+        public string times { get; set; }
+
+
+
+    }
+
 
 }

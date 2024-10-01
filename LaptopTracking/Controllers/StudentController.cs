@@ -17,6 +17,7 @@ namespace LaptopTracking.Controllers
             List<UserLog> UserLogs = new List<UserLog>();
             try
             {
+                CDate = @ViewBag.SelectedDate;
                 // get student information
                 var getUserLog = StudLogic.GetUserLogData(CDate);
                 UserLogs = HtmlHelpers.ConvertDataTable<UserLog>(getUserLog);
@@ -35,6 +36,21 @@ namespace LaptopTracking.Controllers
             {
                 var getAppLog = StudLogic.GetAppLogData(CDate);
                 AppLogs = HtmlHelpers.ConvertDataTable<AppLog>(getAppLog);
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return View(AppLogs.ToList());
+        }
+         public IActionResult Notification()
+        {
+            //get student data
+            List<UserBreachLog> AppLogs = new List<UserBreachLog>();
+            try
+            {
+                var userBreachLog = StudLogic.GetUserBreachData();
+                AppLogs = HtmlHelpers.ConvertDataTable<UserBreachLog>(userBreachLog);
             }
             catch (Exception ex)
             {

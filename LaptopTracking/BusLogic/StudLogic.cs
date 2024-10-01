@@ -42,6 +42,37 @@ namespace LaptopTracking.BusLogic
             }
             return dt;
         }
+        public static DataTable GetUserBreachData()
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                using (con = new SqlConnection(Constants.DATABASE_URL))
+                {
+                    string Query = " SELECT * FROM (";
+                    Query += " SELECT ITS_Number,TRNO UserCode,Fullname,IP_Address,Laptop_Model,Host,convert(varchar, MAX(tIME), 20) times";
+                    Query += " FROM Student S";
+                    Query += " JOIN USERLOG U ON S.TRNO=U.[User]";
+                    Query += " GROUP BY  ITS_Number,TRNO,Fullname,IP_Address,Laptop_Model,Host) As Result";
+                    Query += " where times<=dateadd(d,-6,GETDATE())";
+
+                    SqlCommand cmd = new SqlCommand(Query, con);
+                    //cmd.CommandType = CommandType.StoredProcedure;
+                    //cmd.Parameters.Add(new SqlParameter("@Date", CDate ?? DateTime.Now.ToShortDateString()));
+                    if (con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
+                    SqlDataAdapter sd = new SqlDataAdapter(cmd);
+                    sd.Fill(dt);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return dt;
+        }
         public static DataTable GetAppLogData(string CDate)
         {
             DataTable dt = new DataTable();
@@ -49,17 +80,10 @@ namespace LaptopTracking.BusLogic
             {
                 using (con = new SqlConnection(Constants.DATABASE_URL))
                 {
-                    string Query = " SELECT distinct Host,[USER] as UserId,CAST(CAST(t1.TIME AS DATE) AS varchar) AS [Date] ,DESCR As App,";
-                    Query += " stuff((SELECT distinct ' | ' + cast(CAPTION as varchar(MAX))";
-                    Query += " FROM APPLOG t2";
-                    Query += " where t2.HOST = t1.HOST and t1.DESCR=T2.DESCR and CAST(t1.TIME AS DATE)=CAST(t2.TIME AS DATE)";
-                    Query += " FOR XML PATH('')),1,1,'') As AppActivity";
-                    Query += " from APPLOG t1";
-                    Query += " WHERE cast(Time as date)=@Date";
-                    Query += " group by t1.HOST,t1.[USER],TIME ,t1.DESCR";
+                    string Query = "sp_AppLog";
                     SqlCommand cmd = new SqlCommand(Query, con);
-                    cmd.CommandTimeout = 120; 
-                    //cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandTimeout = 120;
+                    cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add(new SqlParameter("@Date", CDate ?? DateTime.Now.ToShortDateString()));
                     if (con.State == ConnectionState.Closed)
                     {
