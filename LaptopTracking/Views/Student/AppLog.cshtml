@@ -16,7 +16,8 @@
                 type: "POST",
                 url: "/Student/SearchAppData/",
                 data: {
-                    CDate: $("#datePicker").val()
+                    FDate: $("#Fromdate").val(),
+                    TDate: $("#Todate").val()
                 },
                 success: function (customers) {
                     var table = $("#example1");
@@ -69,9 +70,13 @@
                     </h1>
                 </div>
                 <div class="card-header">
-                    <div class="form-group">
+                                     <div class="form-group">
                         <div id="datepicker-group" class="input-group date" data-date-format="dd/mm/yyyy">
-                            <input type="date" id="datePicker">
+                        <label class="input-group-addon">From Date:</label>
+                            <input type="date" id="Fromdate">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                            <label class="input-group-addon">To Date:</label>
+                            <input type="date" id="Todate">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                             <button id="btnSubmit" class="btn btn-primary" type="submit">Submit</button>
                         </div>

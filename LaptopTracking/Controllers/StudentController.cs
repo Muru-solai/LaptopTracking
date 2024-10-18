@@ -11,15 +11,16 @@ namespace LaptopTracking.Controllers
     {
 
         //get student list
-        public IActionResult Index(string CDate)
+        public IActionResult Index(string FDate, string TDate)
         {
             //get student data
             List<UserLog> UserLogs = new List<UserLog>();
             try
             {
+                string CDate = "";
                 CDate = @ViewBag.SelectedDate;
                 // get student information
-                var getUserLog = StudLogic.GetUserLogData(CDate);
+                var getUserLog = StudLogic.GetUserLogData(FDate, TDate);
                 UserLogs = HtmlHelpers.ConvertDataTable<UserLog>(getUserLog);
             }
             catch (Exception ex)
@@ -28,13 +29,14 @@ namespace LaptopTracking.Controllers
             }
             return View(UserLogs.ToList());
         }
-        public IActionResult AppLog(string CDate)
+        public IActionResult AppLog(string FDate, string TDate)
         {
             //get student data
             List<AppLog> AppLogs = new List<AppLog>();
             try
             {
-                var getAppLog = StudLogic.GetAppLogData(CDate);
+                string CDate = "";
+                var getAppLog = StudLogic.GetAppLogData(FDate,TDate);
                 AppLogs = HtmlHelpers.ConvertDataTable<AppLog>(getAppLog);
             }
             catch (Exception ex)
@@ -43,7 +45,7 @@ namespace LaptopTracking.Controllers
             }
             return View(AppLogs.ToList());
         }
-         public IActionResult Notification()
+        public IActionResult Notification()
         {
             //get student data
             List<UserBreachLog> AppLogs = new List<UserBreachLog>();
@@ -59,9 +61,8 @@ namespace LaptopTracking.Controllers
             return View(AppLogs.ToList());
         }
 
-
         [HttpPost]
-        public JsonResult SearchData(string CDate)
+        public JsonResult SearchData(string FDate, string TDate)
         {
             {
                 //get student data
@@ -69,7 +70,7 @@ namespace LaptopTracking.Controllers
                 try
                 {
                     // get student information
-                    var getStudents = StudLogic.GetUserLogData(CDate);
+                    var getStudents = StudLogic.GetUserLogData(FDate, TDate);
                     UserLogs = HtmlHelpers.ConvertDataTable<UserLog>(getStudents);
 
                 }
@@ -81,15 +82,16 @@ namespace LaptopTracking.Controllers
             }
         }
         [HttpPost]
-        public JsonResult SearchAppData(string CDate)
+        public JsonResult SearchAppData(string FDate, string TDate)
         {
             {
+                
                 //get student data
                 List<AppLog> AppLogs = new List<AppLog>();
                 try
                 {
                     // get student information
-                    var getAppLog = StudLogic.GetAppLogData(CDate);
+                    var getAppLog = StudLogic.GetAppLogData(FDate,TDate);
                     AppLogs = HtmlHelpers.ConvertDataTable<AppLog>(getAppLog);
 
                 }

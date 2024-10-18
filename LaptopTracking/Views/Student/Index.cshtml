@@ -2,12 +2,6 @@
 @{
     Layout = "_LayoutDashBoard";
 
-
-
-
-
-
-
     ViewData["IndexInfo"] = "Display all the user logs";
 }
 <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
@@ -15,42 +9,41 @@
     $(document).ready(function () {
 
         $("#btnSubmit").click(function (e) {
-
-    @ViewBag.SelectedDate=$("#datePicker").val();
-
-    @* e.preventDefault();
-                $.ajax({
+            e.preventDefault();
+            $.ajax({
                 type: "POST",
                 url: "/Student/SearchData/",
                 data: {
-                CDate: $("#datePicker").val()
+                    FDate: $("#Fromdate").val(),
+                    TDate: $("#Todate").val()
                 },
                 success: function (customers) {
-                var table = $("#example1");
-                table.find("tr:not(:first:last)").remove();
-                $.each(customers, function (i, customer) {
-                var table = $("#example1");
-                var row = table[0].insertRow(-1);
-                $(row).append("<td />");
-                $(row).find("td").eq(0).html(customer.userId);
-                $(row).append("<td />");
-                $(row).find("td").eq(1).html(customer.host);
-                $(row).append("<td />");
-                $(row).find("td").eq(2).html(customer.date);
-                $(row).append("<td />");
-                $(row).find("td").eq(3).html(customer.fisTlOGIN);
-                $(row).append("<td />");
-                $(row).find("td").eq(4).html(customer.lastlogoff);
-                $(row).append("<td />");
-                $(row).find("td").eq(5).html(customer.totalActiveTime);
-                });
+                    var table = $("#example1");
+                    table.find("tr:not(:first:last)").remove();
+                    $.each(customers, function (i, customer) {
+                        var table = $("#example1");
+                        var row = table[0].insertRow(-1);
+                        $(row).append("<td />");
+                        $(row).find("td").eq(0).html(customer.userId);
+                        $(row).append("<td />");
+                        $(row).find("td").eq(1).html(customer.host);
+                        $(row).append("<td />");
+                        $(row).find("td").eq(2).html(customer.date);
+                        $(row).append("<td />");
+                        $(row).find("td").eq(3).html(customer.fisTlOGIN);
+                        $(row).append("<td />");
+                        $(row).find("td").eq(4).html(customer.lastlogoff);
+                        $(row).append("<td />");
+                        $(row).find("td").eq(5).html(customer.totalActiveTime);
+                    });
                 },
                 error: function (result) {
                 }
-                });
-                }); *@
+            });
+        });
     });
 </script>
+
 <!-- Content Header (Page header) -->
 <div class="content-header">
     <div class="container-fluid">
@@ -58,7 +51,6 @@
             <div class="col-sm-12">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="../Student/Index">Home</a></li>
-                    <li class="breadcrumb-item active">User Log</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -80,10 +72,15 @@
                 <div class="card-header">
                     <div class="form-group">
                         <div id="datepicker-group" class="input-group date" data-date-format="dd/mm/yyyy">
-                            <input type="date" id="datePicker">
+                        <label class="input-group-addon">From Date:</label>
+                            <input type="date" id="Fromdate">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                            <label class="input-group-addon">To Date:</label>
+                            <input type="date" id="Todate">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                             <button id="btnSubmit" class="btn btn-primary" type="submit">Submit</button>
                         </div>
+                        
                     </div>
                 </div>
                 <!-- /.card-header -->
@@ -114,6 +111,30 @@
                         </thead>
                         <tbody>
                             @foreach (var item in Model)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

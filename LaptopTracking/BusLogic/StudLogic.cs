@@ -10,7 +10,7 @@ namespace LaptopTracking.BusLogic
         static int created = 0;
 
         //get all products
-        public static DataTable GetUserLogData(string CDate)
+        public static DataTable GetUserLogData(string FDate, string TDate)
         {
             DataTable dt = new DataTable();
             try
@@ -19,15 +19,16 @@ namespace LaptopTracking.BusLogic
                 {
                     string Query = " SELECT R1.[USER] As UserId,R1.Host,CAST(CAST(FISTlOGIN AS DATE) AS varchar) AS [Date],FISTlOGIN,LASTLOGOFF,CONVERT(varchar,LASTLOGOFF-FISTlOGIN,8) As TotalActiveTime FROM ( ";
                     Query += " SELECT Host,[USER],MIN(tIME) AS FISTlOGIN FROM USERLOG ";
-                    Query += " WHERE cast(Time as date)=@Date AND Event=0 ";
+                    Query += " WHERE cast(Time as date) BETWEEN @FDate AND @TDate AND Event=0 ";
                     Query += " GROUP BY Host,[USER]) as R1 ";
                     Query += " JOIN ( ";
                     Query += " SELECT Host,[USER],MAX(tIME) AS LASTLOGOFF FROM USERLOG  ";
-                    Query += " WHERE cast(Time as date)=@Date AND Event=3 ";
+                    Query += " WHERE cast(Time as date) BETWEEN @FDate AND  @TDate  AND Event=3 ";
                     Query += " GROUP BY Host,[USER]) as R2 on R1.[User]=R2.[User]";
                     SqlCommand cmd = new SqlCommand(Query, con);
                     //cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(new SqlParameter("@Date", CDate ?? DateTime.Now.ToShortDateString()));
+                    cmd.Parameters.Add(new SqlParameter("@FDate", FDate ?? DateTime.Now.ToShortDateString()));
+                    cmd.Parameters.Add(new SqlParameter("@TDate", FDate ?? DateTime.Now.ToShortDateString()));
                     if (con.State == ConnectionState.Closed)
                     {
                         con.Open();
@@ -73,7 +74,7 @@ namespace LaptopTracking.BusLogic
             }
             return dt;
         }
-        public static DataTable GetAppLogData(string CDate)
+        public static DataTable GetAppLogData(string FDate, string TDate)
         {
             DataTable dt = new DataTable();
             try
@@ -84,7 +85,8 @@ namespace LaptopTracking.BusLogic
                     SqlCommand cmd = new SqlCommand(Query, con);
                     cmd.CommandTimeout = 120;
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(new SqlParameter("@Date", CDate ?? DateTime.Now.ToShortDateString()));
+                    cmd.Parameters.Add(new SqlParameter("@FDate", FDate ?? DateTime.Now.ToShortDateString()));
+                    cmd.Parameters.Add(new SqlParameter("@TDate", TDate ?? DateTime.Now.ToShortDateString()));
                     if (con.State == ConnectionState.Closed)
                     {
                         con.Open();
